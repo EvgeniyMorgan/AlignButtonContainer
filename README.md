@@ -88,6 +88,20 @@ Add buttons via AddButton() method
 
 Change layout direction if needed
 
+`Code Example:
+
+````
+// Add buttons
+var btn1 := AlignButtonContainer1.AddButton(btButton);
+var btn2 := AlignButtonContainer1.AddButton(btBitBtn);
+
+// Change layout
+AlignButtonContainer1.LayoutDirection := ldVertical;
+
+// Configure appearance
+AlignButtonContainer1.ButtonWidth := 100;
+AlignButtonContainer1.Spacing := 10;
+````
 
 **В режиме дизайнера**
 **In designer mode**
