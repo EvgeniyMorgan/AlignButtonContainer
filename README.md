@@ -2,7 +2,8 @@
 
 **AlignButtonContainer** - это универсальный контейнер для автоматического размещения кнопок с гибкими настройками компоновки.
 
-![image](/image.png "image")  ![image](/demo.png "image")
+![image](/demo.png "image")
+![image](/image.png "image")  
 
 **Основные возможности:**</br>
 Поддержка нескольких типов кнопок:</br>
@@ -35,61 +36,39 @@ TBitBtn</br>
 Добавляйте кнопки через метод AddButton()</br>
 При необходимости измените направление компоновки</br>
 
-Container for leveled buttons for Lazarus</br>
+# Container for leveled buttons for Lazarus</br>
 
-AlignButtonContainer is a versatile container for automatic button arrangement with flexible layout settings.
+**AlignButtonContainer** is a versatile container for automatic button arrangement with flexible layout settings.</br>
+**Key Features:**</br>
+**Multiple button type support:**</br>
+SpeedButton</br>
+Button</br>
+BitBtn</br>
 
-Key Features:
+**Flexible item arrangement:**</br>
+Horizontal (left to right)</br>
+Vertical (top to bottom)</br>
+Alignment customization:</br>
+Horizontal (left, center, right)</br>
+Vertical (top, center, bottom)</br>
 
-Multiple button type support:
+**Complete size control:**</br>
+Button width/height settings</br>
+Spacing configuration</br>
+Automatic minimum size calculation*</br>
+**Special Features:**</br>
+Designer visual enhancements (border, crosshair and name display)</br>
+Dynamic layout adjustment on resize</br>
+Simple API for adding/removing buttons</br>
+Full standard control properties support</br>
 
-SpeedButton
+**How to Use:**</br>
+Add component to form*</br>
+Configure parameters (sizes, spacing, alignment)</br>
+Add buttons via AddButton() method</br>
+Change layout direction if needed</br>
 
-Button
-
-BitBtn
-
-Flexible item arrangement:
-
-Horizontal (left to right)
-
-Vertical (top to bottom)
-
-Alignment customization:
-
-Horizontal (left, center, right)
-
-Vertical (top, center, bottom)
-
-Complete size control:
-
-Button width/height settings
-
-Spacing configuration
-
-Automatic minimum size calculation
-
-Special Features:
-
-Designer visual enhancements (border, crosshair and name display)
-
-Dynamic layout adjustment on resize
-
-Simple API for adding/removing buttons
-
-Full standard control properties support
-
-How to Use:
-
-Add component to form
-
-Configure parameters (sizes, spacing, alignment)
-
-Add buttons via AddButton() method
-
-Change layout direction if needed
-
-`**Code Example:**`</br>
+**Code Example:**</br>
 ````pascal
 // Add buttons
 var btn1 := AlignButtonContainer1.AddButton(btButton);
@@ -103,13 +82,7 @@ AlignButtonContainer1.ButtonWidth := 100;
 AlignButtonContainer1.Spacing := 10;
 ````
 
-**В режиме дизайнера**
-**In designer mode**
-
 ![image](/image.png "image")
 
-
-**Демо**
-**Demo**
 
 ![image](/demo.png "image")
