@@ -1,4 +1,4 @@
-# AlignButtonContainer for Lazarus
+# AlignButtonContainer для Lazarus
 
 **AlignButtonContainer** - это универсальный контейнер для автоматического размещения кнопок с гибкими настройками компоновки.
 
