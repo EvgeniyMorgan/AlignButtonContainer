@@ -5,13 +5,13 @@ unit AlignButtonContainer;
 interface
 
 uses
-  Classes, SysUtils, Controls, Buttons, Graphics, TypInfo, Math, StdCtrls,
-  LResources;
+  Classes, SysUtils, Controls, Buttons, Graphics, TypInfo, Math, StdCtrls, LResources;
 
 type
   THorizontalAlignment = (haLeft, haCenter, haRight);
   TVerticalAlignment = (vaTop, vaCenter, vaBottom);
   TButtonType = (btSpeedButton, btButton, btBitBtn);
+  TLayoutDirection = (ldHorizontal, ldVertical);
 
   TAlignButtonContainer = class(TCustomControl)
   private
@@ -20,16 +20,20 @@ type
     FSpacing: Integer;
     FHorizontalAlignment: THorizontalAlignment;
     FVerticalAlignment: TVerticalAlignment;
+    FLayoutDirection: TLayoutDirection;
     procedure SetButtonWidth(AValue: Integer);
     procedure SetButtonHeight(AValue: Integer);
     procedure SetSpacing(AValue: Integer);
     procedure SetHorizontalAlignment(AValue: THorizontalAlignment);
     procedure SetVerticalAlignment(AValue: TVerticalAlignment);
+    procedure SetLayoutDirection(AValue: TLayoutDirection);
     procedure RearrangeButtons;
+    procedure UpdateMinSize;
   protected
     procedure Paint; override;
     procedure Loaded; override;
     procedure Resize; override;
+    procedure SetBounds(aLeft, aTop, aWidth, aHeight: integer); override;
   public
     constructor Create(AOwner: TComponent); override;
     function AddButton(ButtonType: TButtonType = btSpeedButton): TControl;
@@ -44,7 +48,10 @@ type
       write SetHorizontalAlignment default haLeft;
     property VerticalAlignment: TVerticalAlignment read FVerticalAlignment
       write SetVerticalAlignment default vaTop;
+    property LayoutDirection: TLayoutDirection read FLayoutDirection
+      write SetLayoutDirection default ldHorizontal;
 
+    property Constraints;
     property Align;
     property Anchors;
     property BorderSpacing;
@@ -89,15 +96,36 @@ begin
   FSpacing := 5;
   FHorizontalAlignment := haLeft;
   FVerticalAlignment := vaTop;
+  FLayoutDirection := ldHorizontal;
   Width := 300;
   Height := 200;
   Color := clBtnFace;
+  UpdateMinSize;
+end;
+
+procedure TAlignButtonContainer.SetBounds(aLeft, aTop, aWidth, aHeight: integer);
+begin
+  if aWidth < Constraints.MinWidth then
+    aWidth := Constraints.MinWidth;
+  if aHeight < Constraints.MinHeight then
+    aHeight := Constraints.MinHeight;
+  inherited SetBounds(aLeft, aTop, aWidth, aHeight);
+end;
+
+procedure TAlignButtonContainer.UpdateMinSize;
+begin
+  Constraints.MinWidth := FButtonWidth + FSpacing * 2;
+  Constraints.MinHeight := FButtonHeight + FSpacing * 2;
+
+  if Width < Constraints.MinWidth then Width := Constraints.MinWidth;
+  if Height < Constraints.MinHeight then Height := Constraints.MinHeight;
 end;
 
 procedure TAlignButtonContainer.SetButtonWidth(AValue: Integer);
 begin
   if FButtonWidth = AValue then Exit;
   FButtonWidth := AValue;
+  UpdateMinSize;
   RearrangeButtons;
 end;
 
@@ -105,6 +133,7 @@ procedure TAlignButtonContainer.SetButtonHeight(AValue: Integer);
 begin
   if FButtonHeight = AValue then Exit;
   FButtonHeight := AValue;
+  UpdateMinSize;
   RearrangeButtons;
 end;
 
@@ -112,6 +141,7 @@ procedure TAlignButtonContainer.SetSpacing(AValue: Integer);
 begin
   if FSpacing = AValue then Exit;
   FSpacing := AValue;
+  UpdateMinSize;
   RearrangeButtons;
 end;
 
@@ -129,87 +159,141 @@ begin
   RearrangeButtons;
 end;
 
+procedure TAlignButtonContainer.SetLayoutDirection(AValue: TLayoutDirection);
+begin
+  if FLayoutDirection = AValue then Exit;
+  FLayoutDirection := AValue;
+  UpdateMinSize;
+  RearrangeButtons;
+end;
+
 procedure TAlignButtonContainer.RearrangeButtons;
 var
-  i, ButtonsPerRow, Row, Col, TotalRows: Integer;
+  i, ButtonsPerRow, ButtonsPerCol, Row, Col, TotalRows, TotalCols: Integer;
   Button: TControl;
   StartX, StartY, TotalWidth, TotalHeight: Integer;
-  RowWidths: array of Integer = nil;
+  RowWidths: array of Integer;
+  ColHeights: array of Integer;
 begin
   if ControlCount = 0 then Exit;
 
-  ButtonsPerRow := Math.Max(1, (Width - FSpacing) div (FButtonWidth + FSpacing));
-  TotalRows := (ControlCount - 1) div ButtonsPerRow + 1;
-
-  SetLength(RowWidths, TotalRows);
-
-  for i := 0 to TotalRows - 1 do
+  if FLayoutDirection = ldHorizontal then
   begin
-    if i = TotalRows - 1 then
-      RowWidths[i] := (ControlCount - i * ButtonsPerRow) * (FButtonWidth + FSpacing) - FSpacing
-    else
-      RowWidths[i] := ButtonsPerRow * (FButtonWidth + FSpacing) - FSpacing;
-  end;
+    ButtonsPerRow := Math.Max(1, (Width - FSpacing) div (FButtonWidth + FSpacing));
+    TotalRows := (ControlCount - 1) div ButtonsPerRow + 1;
 
-  TotalHeight := TotalRows * (FButtonHeight + FSpacing) - FSpacing;
-
-  for i := 0 to ControlCount - 1 do
-  begin
-    if (Controls[i] is TSpeedButton) or (Controls[i] is TButton) or (Controls[i] is TBitBtn) then
+    SetLength(RowWidths, TotalRows);
+    for i := 0 to TotalRows - 1 do
     begin
-      Button := Controls[i];
-      Button.Width := FButtonWidth;
-      Button.Height := FButtonHeight;
+      if i = TotalRows - 1 then
+        RowWidths[i] := (ControlCount - i * ButtonsPerRow) * (FButtonWidth + FSpacing) - FSpacing
+      else
+        RowWidths[i] := ButtonsPerRow * (FButtonWidth + FSpacing) - FSpacing;
+    end;
 
-      Row := i div ButtonsPerRow;
-      Col := i mod ButtonsPerRow;
+    TotalHeight := TotalRows * (FButtonHeight + FSpacing) - FSpacing;
 
-      case FHorizontalAlignment of
-        haLeft: StartX := FSpacing;
-        haCenter: StartX := (Width - RowWidths[Row]) div 2;
-        haRight: StartX := Width - RowWidths[Row] - FSpacing;
+    for i := 0 to ControlCount - 1 do
+    begin
+      if (Controls[i] is TSpeedButton) or (Controls[i] is TButton) or (Controls[i] is TBitBtn) then
+      begin
+        Button := Controls[i];
+        Button.Width := FButtonWidth;
+        Button.Height := FButtonHeight;
+
+        Row := i div ButtonsPerRow;
+        Col := i mod ButtonsPerRow;
+
+        case FHorizontalAlignment of
+          haLeft: StartX := FSpacing;
+          haCenter: StartX := (Width - RowWidths[Row]) div 2;
+          haRight: StartX := Width - RowWidths[Row] - FSpacing;
+        end;
+
+        case FVerticalAlignment of
+          vaTop: StartY := FSpacing;
+          vaCenter: StartY := (Height - TotalHeight) div 2;
+          vaBottom: StartY := Height - TotalHeight - FSpacing;
+        end;
+
+        Button.Left := StartX + Col * (FButtonWidth + FSpacing);
+        Button.Top := StartY + Row * (FButtonHeight + FSpacing);
       end;
+    end;
+  end
+  else
+  begin
+    ButtonsPerCol := Math.Max(1, (Height - FSpacing) div (FButtonHeight + FSpacing));
+    TotalCols := (ControlCount - 1) div ButtonsPerCol + 1;
 
-      case FVerticalAlignment of
-        vaTop: StartY := FSpacing;
-        vaCenter: StartY := (Height - TotalHeight) div 2;
-        vaBottom: StartY := Height - TotalHeight - FSpacing;
+    SetLength(ColHeights, TotalCols);
+    for i := 0 to TotalCols - 1 do
+    begin
+      if i = TotalCols - 1 then
+        ColHeights[i] := (ControlCount - i * ButtonsPerCol) * (FButtonHeight + FSpacing) - FSpacing
+      else
+        ColHeights[i] := ButtonsPerCol * (FButtonHeight + FSpacing) - FSpacing;
+    end;
+
+    TotalWidth := TotalCols * (FButtonWidth + FSpacing) - FSpacing;
+
+    for i := 0 to ControlCount - 1 do
+    begin
+      if (Controls[i] is TSpeedButton) or (Controls[i] is TButton) or (Controls[i] is TBitBtn) then
+      begin
+        Button := Controls[i];
+        Button.Width := FButtonWidth;
+        Button.Height := FButtonHeight;
+
+        Col := i div ButtonsPerCol;
+        Row := i mod ButtonsPerCol;
+
+        case FHorizontalAlignment of
+          haLeft: StartX := FSpacing;
+          haCenter: StartX := (Width - TotalWidth) div 2;
+          haRight: StartX := Width - TotalWidth - FSpacing;
+        end;
+
+        case FVerticalAlignment of
+          vaTop: StartY := FSpacing;
+          vaCenter: StartY := (Height - ColHeights[Col]) div 2;
+          vaBottom: StartY := Height - ColHeights[Col] - FSpacing;
+        end;
+
+        Button.Left := StartX + Col * (FButtonWidth + FSpacing);
+        Button.Top := StartY + Row * (FButtonHeight + FSpacing);
       end;
-
-      Button.Left := StartX + Col * (FButtonWidth + FSpacing);
-      Button.Top := StartY + Row * (FButtonHeight + FSpacing);
     end;
   end;
 end;
 
 procedure TAlignButtonContainer.Paint;
 var
-//  Text: string;
+  CaptionText: string;
   TextWidth, TextHeight: Integer;
 begin
   inherited Paint;
 
   if csDesigning in ComponentState then
   begin
-    // Рисуем пунктирную рамку
     Canvas.Pen.Style := psDash;
     Canvas.Pen.Color := clGray;
     Canvas.Brush.Style := bsClear;
     Canvas.Rectangle(0, 0, Width, Height);
 
-    // Рисуем крест-накрест
+    Canvas.Pen.Style := psSolid;
+    Canvas.Pen.Color := clSilver;
     Canvas.MoveTo(0, 0);
     Canvas.LineTo(Width, Height);
     Canvas.MoveTo(Width, 0);
     Canvas.LineTo(0, Height);
 
-    // Выводим имя компонента по центру
-    Text := Name;
+    CaptionText := Name;
     Canvas.Font := Self.Font;
     Canvas.Brush.Style := bsClear;
-    TextWidth := Canvas.TextWidth(Text);
-    TextHeight := Canvas.TextHeight(Text);
-    Canvas.TextOut((Width - TextWidth) div 2, (Height - TextHeight) div 2, Text);
+    TextWidth := Canvas.TextWidth(CaptionText);
+    TextHeight := Canvas.TextHeight(CaptionText);
+    Canvas.TextOut((Width - TextWidth) div 2, (Height - TextHeight) div 2, CaptionText);
   end;
 end;
 
