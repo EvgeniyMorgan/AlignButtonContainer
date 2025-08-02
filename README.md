@@ -55,7 +55,8 @@ Vertical (top, center, bottom)</br>
 **Complete size control:**</br>
 Button width/height settings</br>
 Spacing configuration</br>
-Automatic minimum size calculation*</br>
+Automatic minimum size calculation</br>
+
 **Special Features:**</br>
 Designer visual enhancements (border, crosshair and name display)</br>
 Dynamic layout adjustment on resize</br>
@@ -63,7 +64,7 @@ Simple API for adding/removing buttons</br>
 Full standard control properties support</br>
 
 **How to Use:**</br>
-Add component to form*</br>
+Add component to form</br>
 Configure parameters (sizes, spacing, alignment)</br>
 Add buttons via AddButton() method</br>
 Change layout direction if needed</br>
