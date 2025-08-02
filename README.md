@@ -30,11 +30,11 @@ BitBtn
 
 **Использование:**
 
-Добавьте компонент на форму
-Настройте параметры (размеры, отступы, выравнивание)
-Добавляйте кнопки через метод AddButton()
-При необходимости измените направление компоновки
-Container for leveled buttons for Lazarus
+Добавьте компонент на форму</br>
+Настройте параметры (размеры, отступы, выравнивание)</br>
+Добавляйте кнопки через метод AddButton()</br>
+При необходимости измените направление компоновки</br>
+Container for leveled buttons for Lazarus</br>
 
 AlignButtonContainer is a versatile container for automatic button arrangement with flexible layout settings.
 
