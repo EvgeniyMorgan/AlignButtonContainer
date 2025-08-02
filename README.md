@@ -36,6 +36,59 @@ BitBtn
 При необходимости измените направление компоновки
 Container for leveled buttons for Lazarus
 
+AlignButtonContainer is a versatile container for automatic button arrangement with flexible layout settings.
+
+Key Features:
+
+Multiple button type support:
+
+SpeedButton
+
+Button
+
+BitBtn
+
+Flexible item arrangement:
+
+Horizontal (left to right)
+
+Vertical (top to bottom)
+
+Alignment customization:
+
+Horizontal (left, center, right)
+
+Vertical (top, center, bottom)
+
+Complete size control:
+
+Button width/height settings
+
+Spacing configuration
+
+Automatic minimum size calculation
+
+Special Features:
+
+Designer visual enhancements (border, crosshair and name display)
+
+Dynamic layout adjustment on resize
+
+Simple API for adding/removing buttons
+
+Full standard control properties support
+
+How to Use:
+
+Add component to form
+
+Configure parameters (sizes, spacing, alignment)
+
+Add buttons via AddButton() method
+
+Change layout direction if needed
+
+
 **В режиме дизайнера**
 **In designer mode**
 
