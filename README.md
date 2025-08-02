@@ -2,6 +2,8 @@
 
 **AlignButtonContainer** - это универсальный контейнер для автоматического размещения кнопок с гибкими настройками компоновки.
 
+![image](/image.png "image")  ![image](/demo.png "image")
+
 **Основные возможности:**</br>
 Поддержка нескольких типов кнопок:</br>
 TSpeedButton</br>
@@ -28,7 +30,6 @@ TBitBtn</br>
 Поддержка всех стандартных свойств управления</br>
 
 **Использование:**</br>
-
 Добавьте компонент на форму</br>
 Настройте параметры (размеры, отступы, выравнивание)</br>
 Добавляйте кнопки через метод AddButton()</br>
@@ -88,8 +89,7 @@ Add buttons via AddButton() method
 
 Change layout direction if needed
 
-`Code Example:
-
+**Code Example:**</br>
 ````
 // Add buttons
 var btn1 := AlignButtonContainer1.AddButton(btButton);
