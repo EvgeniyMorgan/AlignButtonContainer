@@ -89,8 +89,8 @@ Add buttons via AddButton() method
 
 Change layout direction if needed
 
-**Code Example:**</br>
-````
+`**Code Example:**`</br>
+````pascal
 // Add buttons
 var btn1 := AlignButtonContainer1.AddButton(btButton);
 var btn2 := AlignButtonContainer1.AddButton(btBitBtn);
