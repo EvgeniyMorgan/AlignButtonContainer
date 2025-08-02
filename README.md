@@ -3,11 +3,11 @@
 
 Container for leveled buttons for Lazarus
 
-В режиме дизайнера
+# В режиме дизайнера
 
 ![image](/image.png "image")
 
 
-Демо
+# Демо
 
 ![image](/demo.png "image")
