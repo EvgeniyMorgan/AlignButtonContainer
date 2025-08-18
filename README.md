@@ -2,45 +2,10 @@
 > Most likely, there won’t be full documentation—just no time for it, unfortunately((.<br>
 > For any potential issues, please email us. ewgen.morgunov@yandex.ru
 
-# AlignButtonContainer для Lazarus
-
-**AlignButtonContainer** - это универсальный контейнер для автоматического размещения кнопок с гибкими настройками компоновки.
+# Container for leveled buttons for Lazarus</br>
 
 ![image](/demo.png "image")
 ![image](/image.png "image")  
-
-**Основные возможности:**</br>
-Поддержка нескольких типов кнопок:</br>
-TSpeedButton</br>
-TButton</br>
-TBitBtn</br>
-
-**Гибкое расположение элементов:**</br>
-Горизонтальное (слева направо)
-Вертикальное (сверху вниз)
-
-**Настройка выравнивания:**</br>
-Горизонтальное (влево, по центру, вправо)
-Вертикальное (вверх, по центру, вниз)
-
-**Полный контроль размеров:**</br>
-Задание ширины/высоты кнопок</br>
-Настройка промежутков между элементами</br>
-Автоматический расчет минимальных размеров</br>
-
-**Особенности:**</br>
-Визуальное оформление в дизайнере (рамка, перекрестие и название)</br>
-Динамическое изменение макета при изменении размеров</br>
-Простой API для добавления/удаления кнопок</br>
-Поддержка всех стандартных свойств управления</br>
-
-**Использование:**</br>
-Добавьте компонент на форму</br>
-Настройте параметры (размеры, отступы, выравнивание)</br>
-Добавляйте кнопки через метод AddButton()</br>
-При необходимости измените направление компоновки</br>
-
-# Container for leveled buttons for Lazarus</br>
 
 **AlignButtonContainer** is a versatile container for automatic button arrangement with flexible layout settings.</br>
 **Key Features:**</br>
@@ -86,8 +51,3 @@ AlignButtonContainer1.LayoutDirection := ldVertical;
 AlignButtonContainer1.ButtonWidth := 100;
 AlignButtonContainer1.Spacing := 10;
 ````
-
-![image](/image.png "image")
-
-
-![image](/demo.png "image")
