@@ -2,7 +2,7 @@
 > Most likely, there won’t be full documentation—just no time for it, unfortunately((.<br>
 > For any potential issues, please email us. ewgen.morgunov@yandex.ru
 
-# Container for leveled buttons for Lazarus</br>
+# Container for buttons (TButton, TSpeedButton, TBitBtn) with alignment for Lazarus</br>
 
 ![image](/demo.png "image")
 ![image](/image.png "image")  
